@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import AsyncSelect from "react-select/async";
 
+import IconHappy from "../icons/IconHappy";
+import IconSatisfied from "../icons/IconSatisfied";
+import IconWow from "../icons/IconWow";
+import IconNormal from "../icons/IconNormal";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import calendarIcon from "../assets/svg/Calendar.svg";
+
 const TaskDetails = () => {
   const colourOptions = [
     { value: "chocolate", label: "Chocolate" },
@@ -8,30 +16,70 @@ const TaskDetails = () => {
     { value: "vanilla", label: "Vanilla" },
   ];
 
-  const customStyles = {
+  const customStyles1 = {
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      display: "none",
+    }),
+    container: (provided) => ({
+      ...provided,
+      width: 270,
+      marginBottom: 16,
+      fontSize: 16,
+      display: "block",
+    }),
     control: (base, state) => ({
       ...base,
-      // Overwrittes the different states of border
-      borderColor: state.isFocused ? "yellow" : "green",
-      // Removes weird border around container
+      border: "1px solid #ededed",
       boxShadow: state.isFocused ? null : null,
-      "&:hover": {
-        // Overwrittes the different states of border
-        borderColor: state.isFocused ? "red" : "blue",
-      },
-      width: 270,
+      "&:hover": {},
       height: 46,
     }),
     option: (provided, state) => ({
       ...provided,
-      borderBottom: "1px dotted pink",
-      color: state.isSelected ? "red" : "blue",
       padding: 20,
-      width: 270,
+    }),
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      color: "#7A7A7A",
     }),
   };
 
-  const [inputValue, setInputValue] = useState("");
+  const customStyles2 = {
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      display: "none",
+    }),
+    container: (provided) => ({
+      ...provided,
+      width: 374,
+      marginBottom: 16,
+      fontSize: 16,
+      display: "inline-block",
+    }),
+    control: (base, state) => ({
+      ...base,
+      border: "1px solid #ededed",
+      boxShadow: state.isFocused ? null : null,
+      "&:hover": {},
+      height: 46,
+      outline: "none",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      padding: 20,
+    }),
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      color: "#7A7A7A",
+    }),
+  };
+
+  const [extensionDate, setExtensionDate] = useState([
+    { firstName: "", lastName: "" },
+  ]);
+
+  const [date, setDate] = useState(null);
 
   const filterColors = (inputValue) => {
     return colourOptions.filter((i) =>
@@ -57,17 +105,108 @@ const TaskDetails = () => {
         <button>x</button>
       </div>
       <div className="task-detail__content">
-        <h3>Thông tin KR</h3>
-        <p>Chọn KR</p>
-        <AsyncSelect
-          classNamePrefix="react-select"
-          styles={customStyles}
-          cacheOptions
-          loadOptions={loadOptions}
-          defaultOptions
-          onInputChange={handleInputChange}
-          placeholder={"-"}
-        />
+        <div className="task-detail__container">
+          <h3>Thông tin KR</h3>
+          <div className="task-detail__select">
+            <p className="task-detail__label">Chọn KR</p>
+            <AsyncSelect
+              classNamePrefix="react-select"
+              styles={customStyles1}
+              cacheOptions
+              loadOptions={loadOptions}
+              defaultOptionscustomInputr
+            />
+          </div>
+          <h3>Thông tin task</h3>
+          <p className="task-detail__id">Mã: OKG12233</p>
+          <div className="task-detail__select-group">
+            <div className="task-detail__select">
+              <p className="task-detail__label">Người tạo</p>
+              <AsyncSelect
+                classNamePrefix="react-select"
+                styles={customStyles2}
+                indicatorSeparator
+                cacheOptions
+                loadOptions={loadOptions}
+                defaultOptions
+                onInputChange={handleInputChange}
+                placeholder={"-"}
+              />
+            </div>
+            <div className="task-detail__select">
+              <p className="task-detail__label">Người xử lý</p>
+              <AsyncSelect
+                classNamePrefix="react-select"
+                styles={customStyles2}
+                cacheOptions
+                loadOptions={loadOptions}
+                defaultOptions
+                onInputChange={handleInputChange}
+                placeholder={"-"}
+              />
+            </div>
+          </div>
+          <p className="task-detail__strong">Đánh giá</p>
+          <div className="task-detail__emotion-container">
+            <IconNormal />
+            <IconHappy />
+            <IconSatisfied className="emotion-fixed" />
+            <IconWow />
+          </div>
+          <p className="task-detail__label">
+            Tên nhiệm vụ
+            <i className="aterisk"> *</i>
+          </p>
+          <input type="text" className="task-detail__input" />
+          <p className="task-detail__label">
+            Ngày YC HT
+            <i className="aterisk"> *</i>
+          </p>
+          <AsyncSelect
+            classNamePrefix="react-select"
+            styles={customStyles1}
+            cacheOptions
+            loadOptions={loadOptions}
+            defaultOptions
+            onInputChange={handleInputChange}
+            placeholder={"-"}
+          />
+          <p className="task-detail__label">
+            Mô tả
+            <i className="aterisk"> *</i>
+          </p>
+          <input type="text" className="task-detail__input" />
+          <p className="task-detail__label">
+            Kết quả mong muốn
+            <i className="aterisk"> *</i>
+          </p>
+          <input type="text" className="task-detail__input" />
+          <p className="task-detail__label">Trạng thái</p>
+          <AsyncSelect
+            classNamePrefix="react-select"
+            styles={customStyles1}
+            cacheOptions
+            loadOptions={loadOptions}
+            defaultOptions
+            onInputChange={handleInputChange}
+            placeholder={"-"}
+          />
+          <div className="heading-container">
+            <h3>Ngày gia hạn</h3>
+          </div>
+          <div className="datepicker-container">
+            <DatePicker
+              className="datepicker"
+              selected={date}
+              onChange={(date) => setDate(date)}
+              placeholderText="-"
+              dateFormat="vn"
+            />
+            <span className="icon-container">
+              <img src={calendarIcon} className="icon" />
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
