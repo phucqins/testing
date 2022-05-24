@@ -8,6 +8,8 @@ import IconNormal from "../icons/IconNormal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import calendarIcon from "../assets/svg/Calendar.svg";
+import IconPlus from "../icons/IconPlus";
+import ExtensionDate from "./ExtensionDate";
 
 const TaskDetails = () => {
   const colourOptions = [
@@ -75,10 +77,6 @@ const TaskDetails = () => {
     }),
   };
 
-  const [extensionDate, setExtensionDate] = useState([
-    { firstName: "", lastName: "" },
-  ]);
-
   const [date, setDate] = useState(null);
 
   const filterColors = (inputValue) => {
@@ -97,6 +95,25 @@ const TaskDetails = () => {
     const inputValue = newValue.replace(/\W/g, "");
     return inputValue;
   };
+
+  const [extensionDate, setExtensionDate] = useState([
+    {
+      name: { value: "nam", label: "Nam" },
+      date: new Date(),
+    },
+    { name: { value: "ngoc", label: "Ngoc" }, date: new Date() },
+  ]);
+
+  const handleAddExtension = () => {
+    setExtensionDate((prevState) => {
+      return [{ name: null, date: null }, ...prevState];
+    });
+  };
+
+  const removeHandler = (name) => {
+    setExtensionDate(extensionDate.filter((el) => el.name !== name));
+  };
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <div className="task-detail">
@@ -162,15 +179,18 @@ const TaskDetails = () => {
             Ngày YC HT
             <i className="aterisk"> *</i>
           </p>
-          <AsyncSelect
-            classNamePrefix="react-select"
-            styles={customStyles1}
-            cacheOptions
-            loadOptions={loadOptions}
-            defaultOptions
-            onInputChange={handleInputChange}
-            placeholder={"-"}
-          />
+          <div className="datepicker-container">
+            <DatePicker
+              dateFormat="dd/MM/yyyy"
+              className="datepicker"
+              selected={date}
+              onChange={(date) => setDate(date)}
+              placeholderText="-"
+            />
+            <span className="icon-container">
+              <img src={calendarIcon} className="icon" />
+            </span>
+          </div>
           <p className="task-detail__label">
             Mô tả
             <i className="aterisk"> *</i>
@@ -193,18 +213,54 @@ const TaskDetails = () => {
           />
           <div className="heading-container">
             <h3>Ngày gia hạn</h3>
+            <button onClick={handleAddExtension}>
+              <IconPlus /> Thêm
+            </button>
           </div>
-          <div className="datepicker-container">
-            <DatePicker
-              className="datepicker"
-              selected={date}
-              onChange={(date) => setDate(date)}
-              placeholderText="-"
-              dateFormat="vn"
-            />
-            <span className="icon-container">
-              <img src={calendarIcon} className="icon" />
-            </span>
+          {extensionDate.map((el) => {
+            return (
+              <ExtensionDate
+                key={Math.random()}
+                name={el.name}
+                date={el.date}
+                removeHandler={removeHandler}
+              />
+            );
+          })}
+          <div className="heading-container">
+            <h3>Danh sách Timesheet</h3>
+            <button className="timesheet-button" onClick={handleAddExtension}>
+              Khai báo timesheet
+            </button>
+          </div>
+          <div className="timesheet-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ngày thực hiện</th>
+                  <th>Thời gian thực hiện</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="timesheet-table__date">12/01/2022</td>
+                  <td className="timesheet-table__time">8h</td>
+                </tr>
+                <tr>
+                  <td className="timesheet-table__date">12/01/2022</td>
+                  <td className="timesheet-table__time">8h</td>
+                </tr>{" "}
+              </tbody>
+            </table>
+          </div>
+          <div className="task-detail__footer">
+            <button onClick={handleAddExtension}>Hủy</button>
+            <button
+              className="task-detail__footer__save-btn"
+              onClick={handleAddExtension}
+            >
+              Lưu
+            </button>
           </div>
         </div>
       </div>

@@ -36,7 +36,7 @@ p {
   position: absolute;
   top: 0px;
   right: 0px;
-  // bottom: 0px;
+  bottom: 0px;
   left: 0px;
 }
 
@@ -116,6 +116,62 @@ p {
     border-radius: 6px;
     margin-bottom: 1.6rem;
   }
+  &__footer {
+    height: 7.5rem;
+    border-top: 1px solid #ededed;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    button {
+      height: 4.6rem;
+      width: 18rem;
+      font-size: 1.6rem;
+      font-weight: 400;
+      border-radius: 0.6rem;
+      // padding: 1rem 2rem;
+      border: 1px solid #d8d8d8;
+      background-color: #ffffff;
+    }
+  }
+  &__footer button:not(:first-child) {
+    margin-left: 2.4rem;
+    background-color: #f0b71c;
+    border: none;
+  }
+}
+
+.timesheet__modal {
+  width: 80rem;
+  z-index: 111111;
+  position: absolute;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 0.6rem;
+  p {
+    margin: 1.6rem 0;
+  }
+  table {
+    width: 100%;
+    font-size: 1.6rem;
+    th {
+      height: 4.6rem;
+      font-weight: 400 !important;
+      text-align: center;
+      color: #4f4f4f;
+    }
+  }
+  &__table {
+    &__date {
+      width: 15rem;
+    }
+    &__time-count {
+      width: 10rem;
+    }
+  }
+  .datepicker-container {
+    width: 100%;
+  }
 }
 
 .emotion-fixed {
@@ -132,26 +188,102 @@ p {
 }
 
 .datepicker {
-  border-radius: 6px;
-  height: 50px;
   border: none;
   font-size: 1.6rem;
   font-family: inherit;
   font-size: 1.6rem;
+  width: 100%;
 }
 
 .datepicker-container {
   display: flex;
   border: 1px solid #ededed;
-  width: 361px;
+  width: 36.1rem;
   align-items: center;
   padding: 0 1.6rem;
+  border-radius: 0.6rem;
+  height: 5rem;
+  margin-bottom: 1.6rem;
 }
 
 .icon-container {
-  z-index: 10000;
   img {
     width: 1.7rem;
+  }
+}
+
+.heading-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  .timesheet-button {
+    width: 18rem;
+    background: #434243;
+  }
+  button {
+    svg {
+      width: 1.4rem;
+      margin-right: 0.2rem;
+    }
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1.6rem;
+    background: #17345b;
+    border-radius: 6px;
+    border: none;
+    width: 143px;
+    height: 46px;
+  }
+}
+
+.extension-date {
+  &__container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    margin-bottom: 1.4rem;
+    // justify-content: space-between;
+    .datepicker-container {
+      margin-left: 1.2rem;
+      margin-bottom: 0;
+    }
+  }
+  &__cancel {
+    margin-left: 1.2rem;
+    width: 5rem;
+    height: 5rem;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #d8d8d8;
+    border-radius: 6px;
+  }
+}
+
+.timesheet-table {
+  margin-bottom: 1.9rem;
+  border: 1px dashed #ededed;
+  border-radius: 3px;
+  table {
+    width: 100%;
+    font-size: 1.4rem;
+    color: #434243;
+
+    margin-bottom: 1rem;
+    th,
+    td {
+      padding-left: 5.4rem;
+    }
+    th {
+      height: 3rem;
+      text-align: start;
+    }
+    tr {
+      height: 2rem;
+    }
+  }
+  &__time {
+    color: #f0b71c;
   }
 }
 
