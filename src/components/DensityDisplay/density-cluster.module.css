@@ -1,0 +1,15 @@
+.container {
+  background: transparent;
+  display: flex;
+}
+
+.container svg {
+  display: block;
+  margin: auto;
+  margin-right: 16px;
+}
+
+.container p {
+  font-size: 16px;
+  color: #a5a5a5;
+}

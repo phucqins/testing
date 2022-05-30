@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import calendarIcon from "../assets/svg/Calendar.svg";
+import IconDelete from "../icons/IconDelete";
 
 const TimeSheet = () => {
   const [date, setDate] = useState(null);
@@ -20,16 +21,24 @@ const TimeSheet = () => {
             <table>
               <thead>
                 <tr>
-                  <th>Ngày thực hiện</th>
-                  <th>Số lần đã TH</th>
-                  <th>Tổng thời gian HTTT</th>
-                  <th>Ghi chú</th>
-                  <th>Hành động</th>
+                  <th className="timesheet__modal__table__date">
+                    Ngày thực hiện
+                  </th>
+                  <th className="timesheet__modal__table__time-count">
+                    Số lần đã TH
+                  </th>
+                  <th className="timesheet__modal__table__time-total">
+                    Tổng thời gian HTTT
+                  </th>
+                  <th className="timesheet__modal__table__note">Ghi chú</th>
+                  <th className="timesheet__modal__table__control">
+                    Hành động
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="timesheet__modal__table__date">
+                  <td>
                     <div className="datepicker-container">
                       <DatePicker
                         dateFormat="dd/MM/yyyy"
@@ -43,14 +52,183 @@ const TimeSheet = () => {
                       </span>
                     </div>
                   </td>
-                  <td className="timesheet__modal__table__time-count">
-                    <input type="text" placeholder="1" disabled="true" />
+                  <td className="table-padding">
+                    <input
+                      className="timesheet__modal__table__input center"
+                      type="text"
+                      placeholder="1"
+                      disabled="true"
+                    />
+                  </td>
+                  <td className="table-padding">
+                    <input
+                      className="timesheet__modal__table__input center"
+                      type="text"
+                      value="1"
+                      disabled="true"
+                    />
+                  </td>{" "}
+                  <td className="table-padding">
+                    <input
+                      className="timesheet__modal__table__input "
+                      type="text"
+                      value="1"
+                      disabled="true"
+                    />
+                  </td>{" "}
+                  <td className="table-padding">
+                    <input
+                      className="timesheet__modal__table__input"
+                      type="text"
+                      value="-"
+                      disabled="true"
+                    />
                   </td>
                 </tr>
                 <tr>
-                  <td className="timesheet-table__date">12/01/2022</td>
-                  <td className="timesheet-table__time">8h</td>
-                </tr>{" "}
+                  <td>
+                    <div className="datepicker-container">
+                      <DatePicker
+                        dateFormat="dd/MM/yyyy"
+                        className="datepicker"
+                        selected={date}
+                        onChange={(date) => setDate(date)}
+                        placeholderText="-"
+                      />
+                      <span className="icon-container">
+                        <img src={calendarIcon} className="icon" />
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input center"
+                      type="text"
+                      placeholder="1"
+                      disabled="true"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input center"
+                      type="text"
+                      value="1"
+                      disabled="true"
+                    />
+                  </td>{" "}
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input "
+                      type="text"
+                      value="1"
+                      disabled="true"
+                    />
+                  </td>{" "}
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input"
+                      type="text"
+                      value="-"
+                      disabled="true"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div className="datepicker-container">
+                      <DatePicker
+                        dateFormat="dd/MM/yyyy"
+                        className="datepicker"
+                        selected={date}
+                        onChange={(date) => setDate(date)}
+                        placeholderText="-"
+                      />
+                      <span className="icon-container">
+                        <img src={calendarIcon} className="icon" />
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input center"
+                      type="text"
+                      placeholder="1"
+                      disabled="true"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input center"
+                      type="text"
+                      value="1"
+                      disabled="true"
+                    />
+                  </td>{" "}
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input "
+                      type="text"
+                      value="1"
+                      disabled="true"
+                    />
+                  </td>{" "}
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input"
+                      type="text"
+                      value="-"
+                      disabled="true"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div className="datepicker-container">
+                      <DatePicker
+                        dateFormat="dd/MM/yyyy"
+                        className="datepicker"
+                        selected={new Date()}
+                        onChange={(date) => setDate(date)}
+                        placeholderText="-"
+                      />
+                      <span className="icon-container">
+                        <img src={calendarIcon} className="icon" />
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input center"
+                      type="text"
+                      placeholder="1"
+                      disabled="true"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input center"
+                      type="text"
+                      value="1"
+                      disabled="true"
+                    />
+                  </td>{" "}
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input "
+                      type="text"
+                      value="1"
+                      disabled="true"
+                    />
+                  </td>{" "}
+                  <td>
+                    <input
+                      className="timesheet__modal__table__input"
+                      type="text"
+                      value="-"
+                      disabled="true"
+                    />
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
