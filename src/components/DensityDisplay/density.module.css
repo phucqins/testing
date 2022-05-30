@@ -1,0 +1,25 @@
+.density {
+  color: #a5a5a5;
+  font-size: 36px;
+}
+
+.high {
+  color: #47c751;
+}
+
+.medium {
+  color: #f0b71c;
+}
+
+.low {
+  color: #d94d27;
+}
+
+.before {
+  font-weight: 700;
+}
+
+.small {
+  font-size: 16px;
+  font-weight: 400;
+}

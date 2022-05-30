@@ -1,90 +1,42 @@
 import React, { useState } from "react";
 import IconMultiply from "../icons/IconMultiply";
-import AsyncSelect from "react-select/async";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import calendarIcon from "../assets/svg/Calendar.svg";
+import Select from "./ReactSelect/Select";
 
 const ExtensionDate = (props) => {
-  const [date, setDate] = useState(null);
-
-  const customStyles3 = {
-    indicatorSeparator: (provided) => ({
-      ...provided,
-      display: "none",
-    }),
-    container: (provided) => ({
-      ...provided,
-      width: 330,
-      // marginBottom: 16,
-      fontSize: 16,
-      display: "inline-block",
-    }),
-    control: (base, state) => ({
-      ...base,
-      border: "1px solid #ededed",
-      boxShadow: state.isFocused ? null : null,
-      "&:hover": {},
-      height: 50,
-      outline: "none",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      padding: 20,
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: "#7A7A7A",
-    }),
-  };
+  const { value, name, onChange, options } = props;
   const removeHandler = (name) => {
+    console.log(name);
     props.removeHandler(name);
   };
 
-  //   const loadOptions = (inputValue, callback) => {
-  //     setTimeout(() => {
-  //       callback(filterColors(inputValue));
-  //     }, 1000);
-  //   };
+  const [date, setDate] = useState(props.date ? props.date : null);
+
+  const handleDateSelect = (value) => {
+    props.onChange(`${props.name}.date`, value);
+    setDate(value);
+  };
+
   return (
     <div className="extension-date__container">
-      {/* --------------------------- */}
-      {/* {props.name.value ? (
-        <AsyncSelect
-          classNamePrefix="react-select"
-          styles={customStyles3}
-          cacheOptions
-          loadOptions={props.loadOptions}
-          placeholder={"Người gia hạn"}
-          defaultValue={{ value: props.name.value, label: props.name.label }}
-          onInputChange={props.handleInputChange}
-        />
-      ) : (
-        <AsyncSelect
-          classNamePrefix="react-select"
-          styles={customStyles3}
-          cacheOptions
-          loadOptions={props.loadOptions}
-          placeholder={"Người gia hạn"}
-          defaultValue={{ value: "ngoc", label: "Ngoc" }}
-          onInputChange={props.handleInputChange}
-        />
-      )} */}
-      <AsyncSelect
-        classNamePrefix="react-select"
-        styles={customStyles3}
-        cacheOptions
-        loadOptions={props.loadOptions}
+      <Select
+        width={374}
+        options={options}
+        defaultValue={value}
+        name={`${name}.name`}
+        onChange={onChange}
         placeholder={"Người gia hạn"}
-        defaultValue={props.name}
-        onInputChange={props.handleInputChange}
       />
       {/* --------------------------- */}
       <div className="datepicker-container">
         <DatePicker
+          dateFormat="dd/MM/yyyy"
           className="datepicker"
-          selected={props.date}
-          onChange={props.setDate}
+          name={`${name}.date`}
+          selected={date}
+          onChange={handleDateSelect}
           placeholderText="-"
         />
         <span className="icon-container">
@@ -93,8 +45,9 @@ const ExtensionDate = (props) => {
       </div>
       {/* --------------------------- */}
       <button
+        type="button"
         onClick={() => {
-          removeHandler(props.name);
+          removeHandler(value);
         }}
         className="extension-date__cancel"
       >

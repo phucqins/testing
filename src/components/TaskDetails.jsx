@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import AsyncSelect from "react-select/async";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 import IconHappy from "../icons/IconHappy";
 import IconSatisfied from "../icons/IconSatisfied";
@@ -10,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import calendarIcon from "../assets/svg/Calendar.svg";
 import IconPlus from "../icons/IconPlus";
 import ExtensionDate from "./ExtensionDate";
+import Select from "./ReactSelect/Select";
 
 const TaskDetails = () => {
   const colourOptions = [
@@ -18,105 +20,68 @@ const TaskDetails = () => {
     { value: "vanilla", label: "Vanilla" },
   ];
 
-  const customStyles1 = {
-    indicatorSeparator: (provided) => ({
-      ...provided,
-      display: "none",
-    }),
-    container: (provided) => ({
-      ...provided,
-      width: 270,
-      marginBottom: 16,
-      fontSize: 16,
-      display: "block",
-    }),
-    control: (base, state) => ({
-      ...base,
-      border: "1px solid #ededed",
-      boxShadow: state.isFocused ? null : null,
-      "&:hover": {},
-      height: 46,
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      padding: 20,
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: "#7A7A7A",
-    }),
-  };
-
-  const customStyles2 = {
-    indicatorSeparator: (provided) => ({
-      ...provided,
-      display: "none",
-    }),
-    container: (provided) => ({
-      ...provided,
-      width: 374,
-      marginBottom: 16,
-      fontSize: 16,
-      display: "inline-block",
-    }),
-    control: (base, state) => ({
-      ...base,
-      border: "1px solid #ededed",
-      boxShadow: state.isFocused ? null : null,
-      "&:hover": {},
-      height: 46,
-      outline: "none",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      padding: 20,
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: "#7A7A7A",
-    }),
-  };
-
-  const [date, setDate] = useState(null);
-
-  const filterColors = (inputValue) => {
-    return colourOptions.filter((i) =>
-      i.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
-  };
-
-  const loadOptions = (inputValue, callback) => {
-    setTimeout(() => {
-      callback(filterColors(inputValue));
-    }, 1000);
-  };
-
-  const handleInputChange = (newValue) => {
-    const inputValue = newValue.replace(/\W/g, "");
-    return inputValue;
-  };
-
-  const [extensionDate, setExtensionDate] = useState([
-    {
-      name: { value: "nam", label: "Nam" },
-      date: new Date(),
+  const formik = useFormik({
+    initialValues: {
+      krName: {},
+      createPerson: "",
+      handlePerson: "",
+      taskName: "",
+      deadLine: "",
+      description: "",
+      desiredResults: "",
+      status: "",
+      extensionDate: [
+        {
+          name: { value: "nam", label: "Nam" },
+          date: new Date(),
+          id: Math.random(),
+        },
+        {
+          name: { value: "ngoc", label: "Ngoc" },
+          date: new Date(),
+          id: Math.random(),
+        },
+      ],
     },
-    { name: { value: "ngoc", label: "Ngoc" }, date: new Date() },
-  ]);
+    validationSchema: Yup.object().shape({
+      krName: Yup.object().required("Required!"),
+      createPerson: Yup.object().required("Required!"),
+      handlePerson: Yup.object().required("Required!"),
+      taskName: Yup.string().required("Required!"),
+      deadLine: Yup.date().required("Required!"),
+      description: Yup.string().required("Required!"),
+      desiredResults: Yup.string().required("Required!"),
+      status: Yup.object().required("Required!"),
+      extensionDate: Yup.array([
+        { name: Yup.string(), date: Yup.date() },
+      ]).required("Required!"),
+    }),
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+      console.log(values);
+    },
+  });
+
+  const [extensionDate, setExtensionDate] = useState(
+    formik.values.extensionDate
+  );
 
   const handleAddExtension = () => {
-    setExtensionDate((prevState) => {
-      return [{ name: null, date: null }, ...prevState];
+    setExtensionDate([{ name: null, date: null }, ...extensionDate]);
+    return formik.values.extensionDate.unshift({
+      name: null,
+      date: null,
+      id: Math.random(),
     });
   };
 
   const removeHandler = (name) => {
     setExtensionDate(extensionDate.filter((el) => el.name !== name));
+    return formik.values.extensionDate.filter((el) => el.name !== name);
   };
-  const [disabled, setDisabled] = useState(false);
 
   return (
-    <div className="task-detail">
+    <form className="task-detail" onSubmit={formik.handleSubmit}>
       <div className="task-detail__title">
         <h2>Chi tiết nhiệm vụ</h2>
         <button>x</button>
@@ -126,12 +91,12 @@ const TaskDetails = () => {
           <h3>Thông tin KR</h3>
           <div className="task-detail__select">
             <p className="task-detail__label">Chọn KR</p>
-            <AsyncSelect
-              classNamePrefix="react-select"
-              styles={customStyles1}
-              cacheOptions
-              loadOptions={loadOptions}
-              defaultOptionscustomInputr
+            <Select
+              width={270}
+              name="krName"
+              options={colourOptions}
+              defaultValue={{ value: 2131545, label: "Tang Chi Minh" }}
+              onChange={formik.setFieldValue}
             />
           </div>
           <h3>Thông tin task</h3>
@@ -139,27 +104,22 @@ const TaskDetails = () => {
           <div className="task-detail__select-group">
             <div className="task-detail__select">
               <p className="task-detail__label">Người tạo</p>
-              <AsyncSelect
-                classNamePrefix="react-select"
-                styles={customStyles2}
-                indicatorSeparator
-                cacheOptions
-                loadOptions={loadOptions}
-                defaultOptions
-                onInputChange={handleInputChange}
-                placeholder={"-"}
+              <Select
+                width={374}
+                name="createPerson"
+                options={colourOptions}
+                defaultValue={{ value: 2131545, label: "Tang Chi Minh" }}
+                onChange={formik.setFieldValue}
               />
             </div>
             <div className="task-detail__select">
               <p className="task-detail__label">Người xử lý</p>
-              <AsyncSelect
-                classNamePrefix="react-select"
-                styles={customStyles2}
-                cacheOptions
-                loadOptions={loadOptions}
-                defaultOptions
-                onInputChange={handleInputChange}
-                placeholder={"-"}
+              <Select
+                width={374}
+                options={colourOptions}
+                defaultValue={{ value: 2131545, label: "Tang Chi Minh" }}
+                name="handlePerson"
+                onChange={formik.setFieldValue}
               />
             </div>
           </div>
@@ -174,7 +134,12 @@ const TaskDetails = () => {
             Tên nhiệm vụ
             <i className="aterisk"> *</i>
           </p>
-          <input type="text" className="task-detail__input" />
+          <input
+            type="text"
+            className="task-detail__input"
+            onChange={formik.handleChange}
+            name="taskName"
+          />
           <p className="task-detail__label">
             Ngày YC HT
             <i className="aterisk"> *</i>
@@ -183,8 +148,12 @@ const TaskDetails = () => {
             <DatePicker
               dateFormat="dd/MM/yyyy"
               className="datepicker"
-              selected={date}
-              onChange={(date) => setDate(date)}
+              name="deadLine"
+              selected={formik.values.deadLine}
+              onChange={(value) => {
+                console.log(formik.values.d);
+                formik.setFieldValue("deadLine", value);
+              }}
               placeholderText="-"
             />
             <span className="icon-container">
@@ -195,33 +164,48 @@ const TaskDetails = () => {
             Mô tả
             <i className="aterisk"> *</i>
           </p>
-          <input type="text" className="task-detail__input" />
+          <input
+            type="text"
+            className="task-detail__input"
+            onChange={formik.handleChange}
+            name="description"
+          />
           <p className="task-detail__label">
             Kết quả mong muốn
             <i className="aterisk"> *</i>
           </p>
-          <input type="text" className="task-detail__input" />
-          <p className="task-detail__label">Trạng thái</p>
-          <AsyncSelect
-            classNamePrefix="react-select"
-            styles={customStyles1}
-            cacheOptions
-            loadOptions={loadOptions}
-            defaultOptions
-            onInputChange={handleInputChange}
-            placeholder={"-"}
+          <input
+            type="text"
+            className="task-detail__input"
+            onChange={formik.handleChange}
+            name="desiredResults"
           />
+
+          <p className="task-detail__label">Trạng thái</p>
+          <Select
+            width={270}
+            options={colourOptions}
+            defaultValue={{ value: 2131545, label: "Tang Chi Minh" }}
+            name="status"
+            onChange={formik.setFieldValue}
+          />
+
           <div className="heading-container">
             <h3>Ngày gia hạn</h3>
-            <button onClick={handleAddExtension}>
+            <button type="button" onClick={handleAddExtension}>
               <IconPlus /> Thêm
             </button>
           </div>
-          {extensionDate.map((el) => {
+
+          {extensionDate.map((el, i) => {
             return (
               <ExtensionDate
-                key={Math.random()}
-                name={el.name}
+                key={el.id}
+                i={i}
+                options={colourOptions}
+                name={`extensionDate[${i}]`}
+                value={el.name}
+                onChange={formik.setFieldValue}
                 date={el.date}
                 removeHandler={removeHandler}
               />
@@ -229,9 +213,7 @@ const TaskDetails = () => {
           })}
           <div className="heading-container">
             <h3>Danh sách Timesheet</h3>
-            <button className="timesheet-button" onClick={handleAddExtension}>
-              Khai báo timesheet
-            </button>
+            <button className="timesheet-button">Khai báo timesheet</button>
           </div>
           <div className="timesheet-table">
             <table>
@@ -249,22 +231,23 @@ const TaskDetails = () => {
                 <tr>
                   <td className="timesheet-table__date">12/01/2022</td>
                   <td className="timesheet-table__time">8h</td>
-                </tr>{" "}
+                </tr>
               </tbody>
             </table>
           </div>
           <div className="task-detail__footer">
-            <button onClick={handleAddExtension}>Hủy</button>
+            <button>Hủy</button>
             <button
+              disabled={!formik.isValid}
+              type="submit"
               className="task-detail__footer__save-btn"
-              onClick={handleAddExtension}
             >
               Lưu
             </button>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
