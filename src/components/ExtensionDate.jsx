@@ -6,8 +6,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import calendarIcon from "../assets/svg/Calendar.svg";
 
 const ExtensionDate = (props) => {
-  const [date, setDate] = useState(null);
-
   const customStyles3 = {
     indicatorSeparator: (provided) => ({
       ...provided,
@@ -40,35 +38,8 @@ const ExtensionDate = (props) => {
     props.removeHandler(name);
   };
 
-  //   const loadOptions = (inputValue, callback) => {
-  //     setTimeout(() => {
-  //       callback(filterColors(inputValue));
-  //     }, 1000);
-  //   };
   return (
     <div className="extension-date__container">
-      {/* --------------------------- */}
-      {/* {props.name.value ? (
-        <AsyncSelect
-          classNamePrefix="react-select"
-          styles={customStyles3}
-          cacheOptions
-          loadOptions={props.loadOptions}
-          placeholder={"Người gia hạn"}
-          defaultValue={{ value: props.name.value, label: props.name.label }}
-          onInputChange={props.handleInputChange}
-        />
-      ) : (
-        <AsyncSelect
-          classNamePrefix="react-select"
-          styles={customStyles3}
-          cacheOptions
-          loadOptions={props.loadOptions}
-          placeholder={"Người gia hạn"}
-          defaultValue={{ value: "ngoc", label: "Ngoc" }}
-          onInputChange={props.handleInputChange}
-        />
-      )} */}
       <AsyncSelect
         classNamePrefix="react-select"
         styles={customStyles3}
