@@ -6,14 +6,12 @@ import calendarIcon from "../assets/svg/Calendar.svg";
 import Select from "./ReactSelect/Select";
 
 const ExtensionDate = (props) => {
-
   const { value, name, onChange, options } = props;
+
   const removeHandler = (name) => {
     console.log(name);
     props.removeHandler(name);
   };
-
-
 
   const handleDateSelect = (value) => {
     props.onChange(`${props.name}.date`, value);
