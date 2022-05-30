@@ -6,13 +6,14 @@ import calendarIcon from "../assets/svg/Calendar.svg";
 import Select from "./ReactSelect/Select";
 
 const ExtensionDate = (props) => {
+
   const { value, name, onChange, options } = props;
   const removeHandler = (name) => {
     console.log(name);
     props.removeHandler(name);
   };
 
-  const [date, setDate] = useState(props.date ? props.date : null);
+
 
   const handleDateSelect = (value) => {
     props.onChange(`${props.name}.date`, value);
@@ -29,7 +30,6 @@ const ExtensionDate = (props) => {
         onChange={onChange}
         placeholder={"Người gia hạn"}
       />
-      {/* --------------------------- */}
       <div className="datepicker-container">
         <DatePicker
           dateFormat="dd/MM/yyyy"
@@ -43,7 +43,6 @@ const ExtensionDate = (props) => {
           <img src={calendarIcon} className="icon" />
         </span>
       </div>
-      {/* --------------------------- */}
       <button
         type="button"
         onClick={() => {
