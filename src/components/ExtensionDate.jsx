@@ -16,7 +16,6 @@ const ExtensionDate = (props) => {
     container: (provided) => ({
       ...provided,
       width: 330,
-      // marginBottom: 16,
       fontSize: 16,
       display: "inline-block",
     }),
